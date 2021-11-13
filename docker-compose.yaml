@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  nginx:
+    image: nginx:1.21.4
+    volumes:
+      - ./etc/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - ${HTTP_PORT_HTTP:-80}:80
+
+  php:
+    image: php:8.0.12-fpm
