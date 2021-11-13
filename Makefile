@@ -8,6 +8,7 @@ help:
 test: \
 	test-localhost \
 	test-dev-localhost \
+	test-healthcheck \
 	test-ip
 	echo "test pass"
 
@@ -24,5 +25,10 @@ test-dev-localhost:
 	curl -s -D - -H 'Host: test.localhost' http://127.0.0.1:$(PORT_HTTP) | grep 'Content-Type: text/plain;charset=UTF-8'
 	curl -s -D - -H 'Host: test.localhost' http://127.0.0.1:$(PORT_HTTP) | grep 'X-Http-Ok:'
 
+test-healthcheck:
+	curl -s http://localhost:$(PORT_HTTP)/healthcheck | grep 'HEALTHY'
+	curl -s http://127.0.0.1:$(PORT_HTTP)/healthcheck | grep 'HEALTHY'
+
 test-ip:
 	curl -sS http://127.0.0.1:$(PORT_HTTP) 2>&1 | grep 'Empty reply from server'
+	curl -sS http://127.0.0.1:$(PORT_HTTP)/healthcheck | grep 'HEALTHY'
