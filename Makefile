@@ -1,7 +1,6 @@
 .PHONY: help test test-* nmap
 
 PORT_HTTP := 80
-HEALTHCHECK_ALLOWED_CIDR := 172.29.0.0/24
 
 help:
 	@cat $(firstword $(MAKEFILE_LIST))
@@ -36,6 +35,3 @@ test-healthcheck:
 
 test-ip:
 	curl -sS http://127.0.0.1:$(PORT_HTTP) 2>&1 | grep 'Empty reply from server'
-
-nmap:
-	nmap -sL -n $(HEALTHCHECK_ALLOWED_CIDR)
