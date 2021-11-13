@@ -1,6 +1,7 @@
-.PHONY: help test
+.PHONY: help test test-* nmap
 
 PORT_HTTP := 80
+HEALTHCHECK_ALLOWED_CIDR := 172.29.0.0/24
 
 help:
 	@cat $(firstword $(MAKEFILE_LIST))
@@ -27,8 +28,14 @@ test-dev-localhost:
 
 test-healthcheck:
 	curl -s http://localhost:$(PORT_HTTP)/healthcheck | grep 'HEALTHY'
+	curl -s -D - http://localhost:$(PORT_HTTP)/healthcheck | grep 'Content-Type: text/plain;charset=UTF-8'
+	curl -s -D - http://localhost:$(PORT_HTTP)/healthcheck | grep 'X-Http-Ok:'
 	curl -s http://127.0.0.1:$(PORT_HTTP)/healthcheck | grep 'HEALTHY'
+	curl -s -D - http://127.0.0.1:$(PORT_HTTP)/healthcheck | grep 'Content-Type: text/plain;charset=UTF-8'
+	curl -s -D - http://127.0.0.1:$(PORT_HTTP)/healthcheck | grep 'X-Http-Ok:'
 
 test-ip:
 	curl -sS http://127.0.0.1:$(PORT_HTTP) 2>&1 | grep 'Empty reply from server'
-	curl -sS http://127.0.0.1:$(PORT_HTTP)/healthcheck | grep 'HEALTHY'
+
+nmap:
+	nmap -sL -n $(HEALTHCHECK_ALLOWED_CIDR)
