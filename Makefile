@@ -16,6 +16,4 @@ test-localhost:
 	curl -s -D - http://localhost:$(PORT_HTTP) | grep 'X-Http-Ok:'
 
 test-ip:
-	curl -s http://127.0.0.1:$(PORT_HTTP) | grep 'OK'
-	curl -s -D - http://127.0.0.1:$(PORT_HTTP) | grep 'Content-Type: text/plain;charset=UTF-8'
-	curl -s -D - http://127.0.0.1:$(PORT_HTTP) | grep 'X-Http-Ok:'
+	curl -sS http://127.0.0.1:$(PORT_HTTP) 2>&1 | grep 'Empty reply from server'

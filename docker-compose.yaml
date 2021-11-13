@@ -5,6 +5,7 @@ services:
     volumes:
       - .:/usr/local/www//nginx-ban-ip-access
       - ./etc/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+      - ./etc/nginx/conf.d/localhost.conf:/etc/nginx/conf.d/localhost.conf
     ports:
       - ${HTTP_PORT_HTTP:-80}:80
 
